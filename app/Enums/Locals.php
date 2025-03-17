@@ -7,7 +7,7 @@ namespace App\Enums;
 use BenSampo\Enum\Enum;
 
 /**
- * HTTP Response Status Codes Enum
+ * Accepted application locals
  *
  *  @extends Enum<string>
  *
