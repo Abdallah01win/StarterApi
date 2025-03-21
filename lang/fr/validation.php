@@ -11,6 +11,7 @@ return [
     'alpha'           => 'Le champ :attribute doit contenir uniquement des lettres.',
     'alpha_dash'      => 'Le champ :attribute doit contenir uniquement des lettres, des chiffres et des tirets.',
     'alpha_num'       => 'Le champ :attribute doit contenir uniquement des chiffres et des lettres.',
+    'any_of'          => 'The :attribute field is invalid.',
     'array'           => 'Le champ :attribute doit être un tableau.',
     'ascii'           => 'Le champ :attribute ne doit contenir que des caractères alphanumériques et des symboles codés sur un octet.',
     'before'          => 'Le champ :attribute doit être une date antérieure au :date.',
