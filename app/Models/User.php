@@ -62,4 +62,10 @@ class User extends Authenticatable
             }
         });
     }
+
+    public function notifications()
+    {
+        return $this->belongsToMany(Notification::class)
+            ->withPivot(['read', 'read_at']);
+    }
 }

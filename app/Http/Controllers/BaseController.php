@@ -6,7 +6,6 @@ use App\Enums\ResponseCode;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Spatie\QueryBuilder\QueryBuilder;
 
 abstract class BaseController extends Controller
@@ -25,7 +24,7 @@ abstract class BaseController extends Controller
 
     public function __construct()
     {
-        $this->resourceName = $this->getResourceName();
+        $this->resourceName = _getResourceName($this->model);
     }
 
     /**
@@ -150,13 +149,5 @@ abstract class BaseController extends Controller
         }
 
         throw new \RuntimeException("Invalid action: {$action}");
-    }
-
-    /**
-     * Get the pluralized resource name for authorization.
-     */
-    protected function getResourceName(): string
-    {
-        return Str::plural(Str::kebab(class_basename($this->model)));
     }
 }

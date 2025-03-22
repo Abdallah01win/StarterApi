@@ -2,6 +2,7 @@
 
 use App\Enums\RoleNames;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 /**
  * Helper functions for request handling and pagination.
@@ -49,4 +50,12 @@ function _getRoleName(int $role): string
     } catch (Exception $e) {
         throw new \InvalidArgumentException('Invalid role ID provided');
     }
+}
+
+/**
+ * Get the pluralized resource name for authorization.
+ */
+function _getResourceName($model): string
+{
+    return Str::plural(Str::kebab(class_basename($model)));
 }
