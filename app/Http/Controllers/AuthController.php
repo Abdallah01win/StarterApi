@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\ResponseCode;
 use App\Http\Requests\LoginRequest;
 use App\Http\Resources\User\InitUserResource;
+use App\Models\Notification;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -25,6 +26,11 @@ class AuthController extends Controller
 
         $token = $user->createToken($user->name . '-AuthToken', ['*'], now()->addHours(24))->plainTextToken;
 
+        $not = Notification::create(['title' => 'Logged in', 'message' => 'You successfully Logged in!']);
+
+        // Creates Pivot between not & user
+        $not->users()->attach($user->id);
+
         return response()->json(['token' => $token], ResponseCode::SUCCESS);
     }
 
@@ -37,6 +43,8 @@ class AuthController extends Controller
         }
 
         $user['permissions'] = $user->getAllPermissions()->pluck('name');
+
+        $user['notifications_count'] = $user->unreadNotificationsCount();
 
         return response()->json(new InitUserResource($user), ResponseCode::SUCCESS);
     }
