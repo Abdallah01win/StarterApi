@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Notification extends Model
 {
@@ -12,7 +13,7 @@ class Notification extends Model
         'type',
     ];
 
-    public function users()
+    public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class)
             ->withPivot(['read', 'read_at']);

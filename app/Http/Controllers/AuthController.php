@@ -7,6 +7,7 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Resources\User\InitUserResource;
 use App\Models\Notification;
 use App\Models\User;
+use App\Notifications\UserLoggedInNotification;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -45,6 +46,11 @@ class AuthController extends Controller
         $user['permissions'] = $user->getAllPermissions()->pluck('name');
 
         $user['notifications_count'] = $user->unreadNotificationsCount();
+            
+        $not = Notification::latest()->first();
+
+        // $user->notify(new UserLoggedInNotification($not, $user));
+        broadcast(new UserLoggedInNotification($not, $user));
 
         return response()->json(new InitUserResource($user), ResponseCode::SUCCESS);
     }

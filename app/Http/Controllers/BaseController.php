@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Enums\ResponseCode;
+use App\Models\Notification;
+use App\Models\User;
+use App\Notifications\UserLoggedInNotification;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\QueryBuilder;
 
 abstract class BaseController extends Controller
@@ -91,11 +95,14 @@ abstract class BaseController extends Controller
     {
         $this->authorize('create-' . $this->resourceName);
 
-        $request = $this->resolveRequestClass('store');
+        try {
+            $request = $this->resolveRequestClass('store');
+            $this->model::create($request->validated());
 
-        $this->model::create($request->validated());
-
-        return response()->json(true, ResponseCode::CREATED);
+            return response()->json(true, ResponseCode::CREATED);
+        } catch (\Exception $e) {
+            return response()->json(false, ResponseCode::SERVER_ERROR);
+        }
     }
 
     /**
@@ -112,7 +119,7 @@ abstract class BaseController extends Controller
 
             return response()->json(true, ResponseCode::ACCEPTED);
         } catch (\Exception $e) {
-            return response()->json(false, ResponseCode::NOT_FOUND);
+            return response()->json(false, ResponseCode::SERVER_ERROR);
         }
     }
 
@@ -129,7 +136,7 @@ abstract class BaseController extends Controller
 
             return response()->json(true, ResponseCode::NO_CONTENT);
         } catch (\Exception $e) {
-            return response()->json(false, ResponseCode::NOT_FOUND);
+            return response()->json(false, ResponseCode::SERVER_ERROR);
         }
     }
 
