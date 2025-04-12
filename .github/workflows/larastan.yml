@@ -1,0 +1,32 @@
+name: LaraStan
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - dev
+
+jobs:
+  larastan:
+    runs-on: ubuntu-latest
+    if: ${{ github.actor != 'dependabot[bot]' }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: mbstring, dom
+          ini-values: post_max_size=256M, max_execution_time=300
+          coverage: none
+
+      - name: Install dependencies
+        run: composer install
+
+      - name: Run LaraStan
+        run: vendor/bin/phpstan analyse --configuration=phpstan.neon
