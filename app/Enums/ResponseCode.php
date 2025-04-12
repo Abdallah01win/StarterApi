@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Enums;
 
@@ -6,7 +8,7 @@ use BenSampo\Enum\Enum;
 
 /**
  * HTTP Response Status Codes Enum
- * 
+ *
  * @method static static SUCCESS() Returns 200 OK status code
  * @method static static CREATED() Returns 201 Created status code
  * @method static static ACCEPTED() Returns 202 Accepted status code
@@ -16,8 +18,12 @@ use BenSampo\Enum\Enum;
 final class ResponseCode extends Enum
 {
     const SUCCESS = 200;
+
     const CREATED = 201;
+
     const ACCEPTED = 202;
+
     const NO_CONTENT = 204;
+
     const UNAUTHORIZED = 401;
 }
