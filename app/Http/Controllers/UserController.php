@@ -8,16 +8,17 @@ use App\Http\Requests\User\UpdateUserRequest;
 use App\Http\Resources\User\UserResource;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class UserController extends Controller
 {
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
         $users = QueryBuilder::for(User::class);
 
-        if (request()->has('list')) {
+        if (_hasList($request)) {
             $this->authorize('list-users');
 
             return response()->json($users->select('id', 'name')->get());

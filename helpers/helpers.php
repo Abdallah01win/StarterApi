@@ -1,6 +1,17 @@
 <?php
 
-function _paginatePages($count = 0)
+use Illuminate\Http\Request;
+
+function _hasList(Request $request): bool
+{
+    $validated = $request->validate([
+        'list' => 'string|in:true,false|sometimes'
+    ]);
+
+    return $validated['list'] ?? false;
+}
+
+function _paginatePages($count = 0): int
 {
     $perPage = (int) (request()->get('per_page')) ?: 10;
 
