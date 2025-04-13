@@ -15,7 +15,7 @@ class PermissionSeeder extends Seeder
     {
         $permissions = [
             // User permissions
-            'view-users', 'create-users', 'update-users', 'delete-users',
+            'list-users', 'view-users', 'create-users', 'update-users', 'delete-users',
             // More permissions can be added here
         ];
 
@@ -24,12 +24,8 @@ class PermissionSeeder extends Seeder
         }
 
         // Assign permissions to roles
-        $super_admin = Role::findByName('super-admin');
         $admin       = Role::findByName('admin');
         $user        = Role::findByName('user');
-
-        // Assign all permissions to super-admin
-        $super_admin->syncPermissions(Permission::all());
 
         // Assign all permissions to admin
         $admin->syncPermissions(Permission::all());
