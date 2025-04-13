@@ -20,16 +20,16 @@ class UserController extends Controller
         if (request()->has('list')) {
             $this->authorize('list-users');
 
-            return $users->select('id', 'name')->get();
+            return response()->json($users->select('id', 'name')->get());
         }
         $this->authorize('view-users');
 
-        $data = $users->allowedFilters(['name', 'email'])
+        $users = $users->allowedFilters(['name', 'email'])
             ->defaultSort('-created_at')
             ->allowedSorts('created_at')
             ->paginate(_paginatePages());
 
-        return UserResource::collection($data)->response();
+        return UserResource::collection($users)->response();
     }
 
     public function store(StoreUserRequest $request): JsonResponse
