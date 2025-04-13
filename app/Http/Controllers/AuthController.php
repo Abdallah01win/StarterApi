@@ -20,7 +20,7 @@ class AuthController extends Controller
         $user = User::where('email', $data['email'])->first();
 
         if (! $user || ! Hash::check($data['password'], $user->password)) {
-            return response()->json(['message' => __('auth.failed')], 401);
+            return response()->json(['message' => __('auth.failed')], ResponseCode::UNAUTHORIZED);
         }
 
         $token = $user->createToken($user->name.'-AuthToken', ['*'], now()->addHours(24))->plainTextToken;
@@ -32,14 +32,24 @@ class AuthController extends Controller
     {
         $user = Auth::user();
 
-        $user->permissions = $user->getAllPermissions()->pluck('name');
+        if (! $user) {
+            return response()->json(['message' => __('auth.failed')], ResponseCode::UNAUTHORIZED);
+        }
+
+        $user['permissions'] = $user->getAllPermissions()->pluck('name');
 
         return response()->json(new InitUserResource($user), ResponseCode::SUCCESS);
     }
 
     public function logout(Request $request): JsonResponse
     {
-        $request->user()->currentAccessToken()->delete();
+        $user = $request->user();
+
+        if (! $user) {
+            return response()->json(['message' => __('auth.failed')], ResponseCode::UNAUTHORIZED);
+        }
+
+        $user->currentAccessToken()->delete();
 
         return response()->json(true, ResponseCode::SUCCESS);
     }

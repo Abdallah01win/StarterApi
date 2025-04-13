@@ -7,6 +7,8 @@ namespace App\Enums;
 use BenSampo\Enum\Enum;
 
 /**
+ * @extends Enum<int>
+ *
  * @method static static SUPERADMIN()
  * @method static static ADMIN()
  * @method static static USER()

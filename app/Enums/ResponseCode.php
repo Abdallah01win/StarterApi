@@ -9,6 +9,8 @@ use BenSampo\Enum\Enum;
 /**
  * HTTP Response Status Codes Enum
  *
+ *  @extends Enum<int>
+ *
  * @method static static SUCCESS() Returns 200 OK status code
  * @method static static CREATED() Returns 201 Created status code
  * @method static static ACCEPTED() Returns 202 Accepted status code

@@ -5,9 +5,12 @@ includes:
 parameters:
     paths:
         - app/
-
-    # Level 10 is the highest level
     level: 8
+    excludePaths:
+        - ./vendor/**
+    ignoreErrors:
+        - message: '#Access to an undefined property#'
+          path: app/Http/Resources/*
 
 #    ignoreErrors:
 #        - '#PHPDoc tag @var#'

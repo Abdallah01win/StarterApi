@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Enums\ResponseCode;
+use App\Http\Requests\User\StoreUserRequest;
+use App\Http\Requests\User\UpdateUserRequest;
+use App\Http\Resources\User\UserResource;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -18,31 +20,31 @@ class UserController extends Controller
 
         $users = User::all();
 
-        return response()->json($users, ResponseCode::SUCCESS);
+        return response()->json(UserResource::collection($users), ResponseCode::SUCCESS);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreUserRequest $request): JsonResponse
     {
-        //
-    }
+        $this->authorize('create-users');
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
+        User::create($request->validated());
+
+        return response()->json(true, ResponseCode::CREATED);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateUserRequest $request, User $user): JsonResponse
     {
-        //
+        $this->authorize('update-users');
+
+        $user->update($request->validated());
+
+        return response()->json(true, ResponseCode::SUCCESS);
     }
 
     /**
@@ -54,6 +56,6 @@ class UserController extends Controller
 
         $user->delete();
 
-        return response()->json(['success' => true], ResponseCode::NO_CONTENT);
+        return response()->json(true, ResponseCode::NO_CONTENT);
     }
 }

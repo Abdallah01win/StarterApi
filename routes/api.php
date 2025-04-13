@@ -12,5 +12,5 @@ Route::middleware(['auth:sanctum', 'throttle:api'])->group(function () {
 });
 
 Route::middleware(['auth:sanctum', 'throttle:api'])->group(function () {
-    Route::apiResource('users', UserController::class)->except(['show']);
+    Route::apiResource('users', UserController::class)->except(['show'])->withTrashed(['index']);
 });
