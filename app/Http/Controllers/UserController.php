@@ -44,7 +44,7 @@ class UserController extends Controller
 
         $user->update($request->validated());
 
-        return response()->json(true, ResponseCode::SUCCESS);
+        return response()->json(true, ResponseCode::ACCEPTED);
     }
 
     /**
