@@ -8,6 +8,7 @@ use App\Http\Requests\User\UpdateUserRequest;
 use App\Http\Resources\User\UserResource;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class UserController extends Controller
 {
@@ -18,9 +19,13 @@ class UserController extends Controller
     {
         $this->authorize('view-users');
 
-        $users = User::all();
+        $users = QueryBuilder::for(User::class)
+            ->allowedFilters(['name', 'email'])
+            ->defaultSort('-created_at')
+            ->allowedSorts('created_at')
+            ->paginate(_paginatePages());
 
-        return response()->json(UserResource::collection($users), ResponseCode::SUCCESS);
+        return UserResource::collection($users)->response();
     }
 
     /**
