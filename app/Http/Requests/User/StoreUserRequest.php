@@ -25,7 +25,7 @@ class StoreUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|min:4|max:255',
+            'name'  => 'required|string|min:4|max:255',
             'email' => [
                 'required',
                 'string',
@@ -34,7 +34,7 @@ class StoreUserRequest extends FormRequest
                 Rule::unique('users')->ignore($this->route('user')),
             ],
             'password' => 'required|string|min:8|confirmed',
-            'type' => ['required', new EnumValue(UserRole::class)],
+            'type'     => ['required', new EnumValue(UserRole::class)],
         ];
     }
 }

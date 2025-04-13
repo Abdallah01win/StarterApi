@@ -25,8 +25,8 @@ class PermissionSeeder extends Seeder
 
         // Assign permissions to roles
         $super_admin = Role::findByName('super-admin');
-        $admin = Role::findByName('admin');
-        $user = Role::findByName('user');
+        $admin       = Role::findByName('admin');
+        $user        = Role::findByName('user');
 
         // Assign all permissions to super-admin
         $super_admin->syncPermissions(Permission::all());

@@ -23,7 +23,7 @@ class AuthController extends Controller
             return response()->json(['message' => __('auth.failed')], ResponseCode::UNAUTHORIZED);
         }
 
-        $token = $user->createToken($user->name.'-AuthToken', ['*'], now()->addHours(24))->plainTextToken;
+        $token = $user->createToken($user->name . '-AuthToken', ['*'], now()->addHours(24))->plainTextToken;
 
         return response()->json(['token' => $token], ResponseCode::SUCCESS);
     }
