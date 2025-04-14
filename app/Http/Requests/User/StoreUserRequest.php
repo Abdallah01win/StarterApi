@@ -34,7 +34,7 @@ class StoreUserRequest extends FormRequest
                 Rule::unique('users')->ignore($this->route('user')),
             ],
             'password' => 'required|string|min:8|confirmed',
-            'type'     => ['required', new EnumValue(UserRole::class)],
+            'role'     => ['required', new EnumValue(UserRole::class)],
         ];
     }
 }

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
@@ -43,5 +44,22 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password'          => 'hashed',
         ];
+    }
+
+    protected static function boot(): void
+    {
+        parent::boot();
+
+        static::created(function (self $user): void {
+            $roleName = _getRoleName($user->role);
+            $user->syncRoles(Role::findByName($roleName, 'web'));
+        });
+
+        static::updated(function (self $user): void {
+            if ($user->isDirty('role')) {
+                $roleName = _getRoleName($user->role);
+                $user->syncRoles(Role::findByName($roleName, 'web'));
+            }
+        });
     }
 }

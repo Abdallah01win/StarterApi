@@ -2,18 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\ResponseCode;
+use App\Enums\UserRole;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Http\Resources\User\UserResource;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
-class UserController extends Controller
+class UserController extends BaseController
 {
+    protected $model = User::class;
+
+    protected $storeRequest = StoreUserRequest::class;
+
+    protected $updateRequest = UpdateUserRequest::class;
+
     public function index(Request $request): JsonResponse
     {
         $users = QueryBuilder::for(User::class);
@@ -25,38 +32,13 @@ class UserController extends Controller
         }
         $this->authorize('view-users');
 
-        $users = $users->allowedFilters(['name', 'email'])
+        $users = $users->where('role', '>', UserRole::SUPERADMIN)
+            ->whereNot('id', Auth::id())
+            ->allowedFilters(['name', AllowedFilter::exact('role')])
             ->defaultSort('-created_at')
             ->allowedSorts('created_at')
             ->paginate(_paginatePages());
 
         return UserResource::collection($users)->response();
-    }
-
-    public function store(StoreUserRequest $request): JsonResponse
-    {
-        $this->authorize('create-users');
-
-        User::create($request->validated());
-
-        return response()->json(true, ResponseCode::CREATED);
-    }
-
-    public function update(UpdateUserRequest $request, User $user): JsonResponse
-    {
-        $this->authorize('update-users');
-
-        $user->update($request->validated());
-
-        return response()->json(true, ResponseCode::ACCEPTED);
-    }
-
-    public function destroy(User $user): Response
-    {
-        $this->authorize('delete-users');
-
-        $user->delete();
-
-        return response()->noContent();
     }
 }

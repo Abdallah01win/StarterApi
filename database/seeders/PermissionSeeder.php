@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\RoleNames;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -24,8 +25,8 @@ class PermissionSeeder extends Seeder
         }
 
         // Assign permissions to roles
-        $admin = Role::findByName('admin');
-        $user  = Role::findByName('user');
+        $admin = Role::findByName(RoleNames::ADMIN);
+        $user  = Role::findByName(RoleNames::USER);
 
         // Assign all permissions to admin
         $admin->syncPermissions(Permission::all());
