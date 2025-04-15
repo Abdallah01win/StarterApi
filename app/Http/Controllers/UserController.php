@@ -11,34 +11,29 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\AllowedFilter;
-use Spatie\QueryBuilder\QueryBuilder;
 
 class UserController extends BaseController
 {
     protected string $model = User::class;
 
-    protected string $storeRequest = StoreUserRequest::class;
+    protected ?string $storeRequest = StoreUserRequest::class;
 
-    protected string $updateRequest = UpdateUserRequest::class;
+    protected ?string $updateRequest = UpdateUserRequest::class;
+
+    protected string $modelResource = UserResource::class;
 
     public function index(Request $request): JsonResponse
     {
-        $users = QueryBuilder::for(User::class);
+        $paginationQuery = function ($query) {
+            return $query->whereNot('role', UserRole::SUPERADMIN)->whereNot('id', Auth::id());
+        };
 
-        if (_hasList($request)) {
-            $this->authorize('list-users');
-
-            return response()->json($users->select('id', 'name')->get());
-        }
-        $this->authorize('view-users');
-
-        $users = $users->where('role', '>', UserRole::SUPERADMIN)
-            ->whereNot('id', Auth::id())
-            ->allowedFilters(['name', AllowedFilter::exact('role')])
-            ->defaultSort('-created_at')
-            ->allowedSorts('created_at')
-            ->paginate(_paginatePages());
-
-        return UserResource::collection($users)->response();
+        return parent::readAll(
+            $request,
+            $paginationQuery,
+            null,
+            ['id', 'name'],
+            ['name', AllowedFilter::exact('role')],
+        );
     }
 }

@@ -16,6 +16,7 @@ use BenSampo\Enum\Enum;
  * @method static static ACCEPTED() Returns 202 Accepted status code
  * @method static static NO_CONTENT() Returns 204 No Content status code
  * @method static static UNAUTHORIZED() Returns 401 Unauthorized status code
+ * @method static static NOT_FOUND() Returns 404 Not Found status code
  */
 final class ResponseCode extends Enum
 {
@@ -28,4 +29,6 @@ final class ResponseCode extends Enum
     const NO_CONTENT = 204;
 
     const UNAUTHORIZED = 401;
+
+    const NOT_FOUND = 404;
 }
