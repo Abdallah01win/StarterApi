@@ -9,6 +9,12 @@ parameters:
     excludePaths:
         - ./vendor/**
     ignoreErrors:
+        - message: '#Call to an undefined method .*::allowedFilters\(\)#'
+          path: app/Http/Controllers/**
+        - message: '#Call to an undefined method .*::getData\(\)#'
+          path: app/Http/Middleware/**
+        - message: '#Call to an undefined method .*::setData\(\)#'
+          path: app/Http/Middleware/**
         - message: '#Access to an undefined property#'
           path: app/Http/Resources/*
 

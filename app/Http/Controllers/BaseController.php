@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\ResponseCode;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -11,13 +12,13 @@ use Illuminate\Support\Str;
 
 abstract class BaseController extends Controller
 {
-    protected $model;
+    protected string $model;
 
-    protected $baseRequest = null;
+    protected string $baseRequest;
 
-    protected $storeRequest = null;
+    protected string $storeRequest;
 
-    protected $updateRequest = null;
+    protected string $updateRequest;
 
     /**
      * Store a newly created resource in storage.
@@ -64,7 +65,7 @@ abstract class BaseController extends Controller
     /**
      * Resolve the request class for the given action.
      */
-    protected function resolveRequestClass(string $action)
+    protected function resolveRequestClass(string $action): FormRequest
     {
         if (! $this->baseRequest && (! $this->storeRequest || ! $this->updateRequest)) {
             throw new \RuntimeException("Request class not found for {$action} action");
@@ -75,6 +76,8 @@ abstract class BaseController extends Controller
         } elseif ($action === 'update') {
             return app($this->updateRequest ?? $this->baseRequest);
         }
+
+        throw new \RuntimeException("Invalid action: {$action}");
     }
 
     /**

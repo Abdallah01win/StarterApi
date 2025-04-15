@@ -15,11 +15,11 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class UserController extends BaseController
 {
-    protected $model = User::class;
+    protected string $model = User::class;
 
-    protected $storeRequest = StoreUserRequest::class;
+    protected string $storeRequest = StoreUserRequest::class;
 
-    protected $updateRequest = UpdateUserRequest::class;
+    protected string $updateRequest = UpdateUserRequest::class;
 
     public function index(Request $request): JsonResponse
     {

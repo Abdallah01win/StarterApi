@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Enums\ResponseCode;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,7 +18,7 @@ class PaginationMiddleware
     {
         $response = $next($request);
 
-        if ($request->method() === 'GET' && $response->getStatusCode() === 200) {
+        if ($request->method() === 'GET' && $response->getStatusCode() === ResponseCode::SUCCESS) {
 
             $data = $response->getData(true);
 

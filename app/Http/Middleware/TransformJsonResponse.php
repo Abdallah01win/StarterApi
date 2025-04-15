@@ -25,8 +25,11 @@ class TransformJsonResponse
 
     /**
      * Transform array keys from snake_case to camelCase recursively.
+     *
+     * @param  array<int, mixed>|object|string|int|bool|null  $data
+     * @return mixed
      */
-    protected function transformKeys(array|object|string|int|bool|null $data): array|object|string|int|bool|null
+    protected function transformKeys($data)
     {
         if (! is_array($data) && ! is_object($data)) {
             return $data;
