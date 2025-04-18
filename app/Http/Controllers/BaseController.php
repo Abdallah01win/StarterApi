@@ -37,6 +37,7 @@ abstract class BaseController extends Controller
      * @param  array  $listfields  Fields to select when returning a simple list
      * @param  array  $filters  Allowed filters for Spatie Query Builder
      * @param  array  $sorts  Allowed sort fields
+     * @param  bool $usePaginationQueryForList Weather to use pagination query for list when no list query is provided
      * @param  bool  $acceptsList  Toggle to enable/disable the simple list functionality
      */
     public function readAll(
@@ -45,6 +46,7 @@ abstract class BaseController extends Controller
         ?\Closure $listQuery = null,
         array $listfields = [],
         array $filters = [],
+        bool $usePaginationQueryForList = false,
         array $sorts = [],
         bool $acceptsList = true
     ): JsonResponse {
@@ -55,7 +57,7 @@ abstract class BaseController extends Controller
             if ($listQuery !== null) {
                 $baseListQuery = $this->model::query();
                 $query         = QueryBuilder::for($listQuery($baseListQuery));
-            } elseif ($paginationQuery !== null) {
+            } elseif ($paginationQuery !== null && $usePaginationQueryForList) {
                 $baseQuery = $this->model::query();
                 $query     = QueryBuilder::for($paginationQuery($baseQuery));
             } else {

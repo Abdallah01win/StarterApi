@@ -34,6 +34,7 @@ class UserController extends BaseController
             null,
             ['id', 'name'],
             ['name', AllowedFilter::exact('role')],
+            true
         );
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Enums\RoleNames;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -24,7 +25,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Gate::after(function ($user) {
-            if ($user->hasRole('super-admin')) {
+            if ($user->hasRole(RoleNames::SUPER_ADMIN)) {
                 return true;
             }
         });
