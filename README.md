@@ -73,18 +73,16 @@ This starter kit is built upon the following technologies and packages:
 This starter kit provides a foundation for your API. Here's how to get started building your specific features:
 
 1.  **Authentication:**
-    *   Endpoints for login (`/api/login`), logout (`/api/logout`), and fetching the authenticated user (`/api/init_user`) are pre-configured using Sanctum.
-    *   Login requests are throttled separately.
     *   API routes requiring authentication should be placed within the `auth:sanctum` middleware group.
+    *   Endpoints for login (`/api/login`), logout (`/api/logout`), and fetching the authenticated user (`/api/init_user`) are pre-configured.
 
 2.  **Authorization:**
     *   Use `spatie/laravel-permission` to define roles and permissions.
     *   Assign roles/permissions to users. The `User` model is already set up with the `HasRoles` trait.
 
 3.  **Building Your API:**
-    *   **Create Models:** Define your application's data structures in the `app/Models` directory.
-    *   **Create Migrations:** Generate migrations to build your database schema (`php artisan make:migration ...`).
-    *   **Create Controllers:** Generate API controllers (`php artisan make:controller YourController`). Then extend BaseController and provide the required field for a full CRUD controller with minimal effort. Note: You can always override existing or add new controller methods.
+    *   **Data Structures:** Start by creating your Model, Request, Migration, and Response as you normally would.
+    *   **Create Controllers:** Generate API controllers (`php artisan make:controller YourController`). Then extend the `BaseController` and provide the required field for a full CRUD controller with minimal effort. Note: You can always override existing or add new controller methods.
     *   **Define Routes:** Add your API routes to `routes/api.php` within the `auth:sanctum` group if they require authentication.
     *   **Use Enums:** Utilize `bensampo/laravel-enum` for defining enums (e.g., user roles, statuses). The `User` model includes an example `role` attribute cast to an Enum.
     *   **Helpers:** Add global helper functions to `helpers/helpers.php`.
