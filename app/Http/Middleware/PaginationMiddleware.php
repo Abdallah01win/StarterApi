@@ -22,7 +22,7 @@ class PaginationMiddleware
 
             $data = $response->getData(true);
 
-            $keys = ['links', 'first_page_url', 'last_page_url', 'next_page_url', 'path', 'prev_page_url', 'last_page', 'from'];
+            $keys = ['links', 'first_page_url', 'last_page_url', 'next_page_url', 'path', 'prev_page_url', 'lastPage', 'perPage'];
 
             foreach ($keys as $key) {
                 if (array_key_exists($key, $data)) {

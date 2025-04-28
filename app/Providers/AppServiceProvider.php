@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Enums\ResponseCode;
 use App\Enums\RoleNames;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
@@ -31,14 +32,14 @@ class AppServiceProvider extends ServiceProvider
         });
 
         RateLimiter::for('api', function (Request $request) {
-            return Limit::perMinute(5)->by($request->user()?->id ?: $request->ip())->response(function () {
-                return response()->json(['message' => __('auth.throttle')], 429);
+            return Limit::perMinute(30)->by($request->user()?->id ?: $request->ip())->response(function () {
+                return response()->json(['message' => __('auth.throttle.api')], ResponseCode::TOO_MANY_REQUESTS);
             });
         });
 
         RateLimiter::for('login', function (Request $request) {
             return Limit::perMinute(3)->by($request->ip())->response(function () {
-                return response()->json(['message' => __('auth.throttle')], 429);
+                return response()->json(['message' => __('auth.throttle.login')], ResponseCode::TOO_MANY_REQUESTS);
             });
         });
     }

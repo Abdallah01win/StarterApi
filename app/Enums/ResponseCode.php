@@ -31,4 +31,6 @@ final class ResponseCode extends Enum
     const UNAUTHORIZED = 401;
 
     const NOT_FOUND = 404;
+
+    const TOO_MANY_REQUESTS = 429;
 }
