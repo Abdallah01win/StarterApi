@@ -34,9 +34,9 @@ abstract class BaseController extends Controller
      * @param  Request  $request  The HTTP request
      * @param  \Closure|null  $paginationQuery  Custom query for paginated results
      * @param  \Closure|null  $listQuery  Custom query for list results
-     * @param  array  $listfields  Fields to select when returning a simple list
-     * @param  array  $filters  Allowed filters for Spatie Query Builder
-     * @param  array  $sorts  Allowed sort fields
+     * @param  array<string>  $listfields  Fields to select when returning a simple list
+     * @param  array<mixed>  $filters  Allowed filters for Spatie Query Builder
+     * @param  array<string>  $sorts  Allowed sort fields
      * @param  bool  $usePaginationQueryForList  Weather to use pagination query for list when no list query is provided
      * @param  bool  $acceptsList  Toggle to enable/disable the simple list functionality
      */
