@@ -3,9 +3,6 @@ on:
   push:
     branches:
       - main
-permissions:
-  contents: read
-  security-events: write
 jobs:
   build:
     name: Build
@@ -26,4 +23,5 @@ jobs:
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v3
         with:
+          github-pat: ${{ secrets.GITHUB_TOKEN }}
           sarif_file: "trivy-results.sarif"
