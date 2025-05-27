@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\LocalizationMiddleware;
 use App\Http\Middleware\PaginationMiddleware;
 use App\Http\Middleware\TransformJsonResponse;
 use Illuminate\Foundation\Application;
@@ -13,7 +14,11 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up'
     )
     ->withMiddleware(function (Middleware $middleware) {
-        $middleware->append([PaginationMiddleware::class, TransformJsonResponse::class]);
+        $middleware->append([
+            LocalizationMiddleware::class,
+            PaginationMiddleware::class,
+            TransformJsonResponse::class,
+        ]);
 
         $middleware->statefulApi();
         $middleware->throttleApi();
