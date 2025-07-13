@@ -125,7 +125,7 @@ abstract class BaseController extends Controller
 
             return response()->json(true, ResponseCode::ACCEPTED);
         } catch (\Exception $e) {
-            return response()->json(false, ResponseCode::NOT_FOUND);
+            return response()->json(["message" => $e->getMessage()], ResponseCode::NOT_FOUND);
         }
     }
 
