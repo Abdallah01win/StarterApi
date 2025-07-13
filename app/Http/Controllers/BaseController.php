@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Enums\ControllerActions;
 use App\Enums\ResponseCode;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -125,7 +124,7 @@ abstract class BaseController extends Controller
 
             return response()->json(true, ResponseCode::ACCEPTED);
         } catch (\Exception $e) {
-            return response()->json(["message" => $e->getMessage()], ResponseCode::NOT_FOUND);
+            return response()->json(['message' => $e->getMessage()], ResponseCode::NOT_FOUND);
         }
     }
 
@@ -162,7 +161,7 @@ abstract class BaseController extends Controller
         $instance = match ($action) {
             ControllerActions::STORE  => $this->storeRequest  ?? $this->baseRequest,
             ControllerActions::UPDATE => $this->updateRequest ?? $this->baseRequest,
-            default  => throw new \RuntimeException("Invalid action: {$action}")
+            default                   => throw new \RuntimeException("Invalid action: {$action}")
         };
 
         return new $instance;
