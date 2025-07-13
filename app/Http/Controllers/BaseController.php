@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\ControllerActions;
 use App\Enums\ResponseCode;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -93,7 +95,7 @@ abstract class BaseController extends Controller
     {
         $this->authorize('create-' . $this->resourceName);
 
-        $validator = $this->validateRequest($request, 'store');
+        $validator = $this->validateRequest($request, ControllerActions::STORE);
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], ResponseCode::UNPROCESSABLE_CONTENT);
@@ -113,7 +115,7 @@ abstract class BaseController extends Controller
 
         try {
             $model     = $this->model::findOrFail($id);
-            $validator = $this->validateRequest($request, 'store');
+            $validator = $this->validateRequest($request, ControllerActions::UPDATE);
 
             if ($validator->fails()) {
                 return response()->json(['errors' => $validator->errors()], ResponseCode::UNPROCESSABLE_CONTENT);
@@ -158,8 +160,8 @@ abstract class BaseController extends Controller
     protected function getRequestClass(string $action): mixed
     {
         $instance = match ($action) {
-            'store'  => $this->storeRequest  ?? $this->baseRequest,
-            'update' => $this->updateRequest ?? $this->baseRequest,
+            ControllerActions::STORE  => $this->storeRequest  ?? $this->baseRequest,
+            ControllerActions::UPDATE => $this->updateRequest ?? $this->baseRequest,
             default  => throw new \RuntimeException("Invalid action: {$action}")
         };
 
