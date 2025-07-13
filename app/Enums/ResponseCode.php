@@ -32,5 +32,7 @@ final class ResponseCode extends Enum
 
     const NOT_FOUND = 404;
 
+    const UNPROCESSABLE_CONTENT = 422;
+
     const TOO_MANY_REQUESTS = 429;
 }

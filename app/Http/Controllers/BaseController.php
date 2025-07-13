@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\ControllerActions;
 use App\Enums\ResponseCode;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Validator as ValidationValidator;
 use Spatie\QueryBuilder\QueryBuilder;
 
 abstract class BaseController extends Controller
@@ -88,13 +90,17 @@ abstract class BaseController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(): JsonResponse
+    public function store(Request $request): JsonResponse
     {
         $this->authorize('create-' . $this->resourceName);
 
-        $request = $this->resolveRequestClass('store');
+        $validator = $this->validateRequest($request, ControllerActions::STORE);
 
-        $this->model::create($request->validated());
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], ResponseCode::UNPROCESSABLE_CONTENT);
+        }
+
+        $this->model::create($validator->validated());
 
         return response()->json(true, ResponseCode::CREATED);
     }
@@ -102,18 +108,23 @@ abstract class BaseController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(int $id): JsonResponse
+    public function update(int $id, Request $request): JsonResponse
     {
         $this->authorize('update-' . $this->resourceName);
 
         try {
-            $model   = $this->model::findOrFail($id);
-            $request = $this->resolveRequestClass('update');
-            $model->update($request->validated());
+            $model     = $this->model::findOrFail($id);
+            $validator = $this->validateRequest($request, ControllerActions::UPDATE);
+
+            if ($validator->fails()) {
+                return response()->json(['errors' => $validator->errors()], ResponseCode::UNPROCESSABLE_CONTENT);
+            }
+
+            $model->update($validator->validated());
 
             return response()->json(true, ResponseCode::ACCEPTED);
         } catch (\Exception $e) {
-            return response()->json(false, ResponseCode::NOT_FOUND);
+            return response()->json(['message' => $e->getMessage()], ResponseCode::NOT_FOUND);
         }
     }
 
@@ -135,28 +146,34 @@ abstract class BaseController extends Controller
     }
 
     /**
-     * Resolve the request class for the given action.
-     */
-    protected function resolveRequestClass(string $action): FormRequest
-    {
-        if (! $this->baseRequest && (! $this->storeRequest || ! $this->updateRequest)) {
-            throw new \RuntimeException("Request class not found for {$action} action");
-        }
-
-        if ($action === 'store') {
-            return app($this->storeRequest ?? $this->baseRequest);
-        } elseif ($action === 'update') {
-            return app($this->updateRequest ?? $this->baseRequest);
-        }
-
-        throw new \RuntimeException("Invalid action: {$action}");
-    }
-
-    /**
      * Get the pluralized resource name for authorization.
      */
     protected function getResourceName(): string
     {
         return Str::plural(Str::kebab(class_basename($this->model)));
+    }
+
+    /**
+     * Resolve the request class for the given action.
+     */
+    protected function getRequestClass(string $action): mixed
+    {
+        $instance = match ($action) {
+            ControllerActions::STORE  => $this->storeRequest  ?? $this->baseRequest,
+            ControllerActions::UPDATE => $this->updateRequest ?? $this->baseRequest,
+            default                   => throw new \RuntimeException("Invalid action: {$action}")
+        };
+
+        return new $instance;
+    }
+
+    /**
+     * Validate the request for the given action.
+     */
+    protected function validateRequest(Request $request, string $action): ValidationValidator
+    {
+        $requestClass = $this->getRequestClass($action);
+
+        return Validator::make($request->all(), $requestClass->rules());
     }
 }
