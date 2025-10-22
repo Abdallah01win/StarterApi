@@ -7121,16 +7121,16 @@
         },
         {
             "name": "composer/semver",
-            "version": "3.4.3",
+            "version": "3.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/semver.git",
-                "reference": "4313d26ada5e0c4edfbd1dc481a92ff7bff91f12"
+                "reference": "198166618906cb2de69b95d7d47e5fa8aa1b2b95"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/semver/zipball/4313d26ada5e0c4edfbd1dc481a92ff7bff91f12",
-                "reference": "4313d26ada5e0c4edfbd1dc481a92ff7bff91f12",
+                "url": "https://api.github.com/repos/composer/semver/zipball/198166618906cb2de69b95d7d47e5fa8aa1b2b95",
+                "reference": "198166618906cb2de69b95d7d47e5fa8aa1b2b95",
                 "shasum": ""
             },
             "require": {
@@ -7182,7 +7182,7 @@
             "support": {
                 "irc": "ircs://irc.libera.chat:6697/composer",
                 "issues": "https://github.com/composer/semver/issues",
-                "source": "https://github.com/composer/semver/tree/3.4.3"
+                "source": "https://github.com/composer/semver/tree/3.4.4"
             },
             "funding": [
                 {
@@ -7192,13 +7192,9 @@
                 {
                     "url": "https://github.com/composer",
                     "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/composer/composer",
-                    "type": "tidelift"
                 }
             ],
-            "time": "2024-09-19T14:15:21+00:00"
+            "time": "2025-08-20T19:15:30+00:00"
         },
         {
             "name": "doctrine/deprecations",
@@ -7988,16 +7984,16 @@
         },
         {
             "name": "laravel-lang/lang",
-            "version": "15.22.5",
+            "version": "15.26.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Laravel-Lang/lang.git",
-                "reference": "48526c88e90d2bb592bcbb47de96ca5e486c41cc"
+                "reference": "3cae5a9b4c5553a065fc701499ffee2c7bc12ffb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Laravel-Lang/lang/zipball/48526c88e90d2bb592bcbb47de96ca5e486c41cc",
-                "reference": "48526c88e90d2bb592bcbb47de96ca5e486c41cc",
+                "url": "https://api.github.com/repos/Laravel-Lang/lang/zipball/3cae5a9b4c5553a065fc701499ffee2c7bc12ffb",
+                "reference": "3cae5a9b4c5553a065fc701499ffee2c7bc12ffb",
                 "shasum": ""
             },
             "require": {
@@ -8009,8 +8005,9 @@
                 "laravel/framework": "<11.0.7"
             },
             "require-dev": {
+                "dragon-code/codestyler": "^6.0",
                 "laravel-lang/status-generator": "^2.11",
-                "phpunit/phpunit": "^10.0 || ^11.0 || ^12.0",
+                "phpunit/phpunit": "^11.0 || ^12.0",
                 "symfony/var-dumper": "^7.0"
             },
             "type": "library",
@@ -8047,7 +8044,7 @@
                 "issues": "https://github.com/Laravel-Lang/lang/issues",
                 "source": "https://github.com/Laravel-Lang/lang"
             },
-            "time": "2025-07-03T13:22:31+00:00"
+            "time": "2025-10-06T23:59:01+00:00"
         },
         {
             "name": "laravel-lang/locale-list",
@@ -8388,16 +8385,16 @@
         },
         {
             "name": "laravel-lang/publisher",
-            "version": "16.6.1",
+            "version": "16.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Laravel-Lang/publisher.git",
-                "reference": "1e9d4c6e1bf6c2c930db2ca883be85ee9039b69a"
+                "reference": "af47a0807f753818d72808250a1166e98172047c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Laravel-Lang/publisher/zipball/1e9d4c6e1bf6c2c930db2ca883be85ee9039b69a",
-                "reference": "1e9d4c6e1bf6c2c930db2ca883be85ee9039b69a",
+                "url": "https://api.github.com/repos/Laravel-Lang/publisher/zipball/af47a0807f753818d72808250a1166e98172047c",
+                "reference": "af47a0807f753818d72808250a1166e98172047c",
                 "shasum": ""
             },
             "require": {
@@ -8482,7 +8479,7 @@
                 "issues": "https://github.com/Laravel-Lang/publisher/issues",
                 "source": "https://github.com/Laravel-Lang/publisher"
             },
-            "time": "2025-06-23T09:37:42+00:00"
+            "time": "2025-07-14T17:58:53+00:00"
         },
         {
             "name": "laravel/pail",
